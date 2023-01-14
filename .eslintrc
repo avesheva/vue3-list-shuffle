@@ -16,7 +16,8 @@
     "@typescript-eslint/no-unused-expressions": 0,
     "react/jsx-filename-extension": 0,
     "import/extensions": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "@typescript-eslint/comma-dangle": [2, "always-multiline"]
   },
   "extends": [
     "plugin:vue/strongly-recommended",
