@@ -41,3 +41,7 @@ Replace **"your-lib-name"** in _package.json_, _vite.config.ts_ with your lib ac
 
 Replace git remote url with your repo: `git remote set-url origin <your.repo-url>`
 
+## Edit
+
+Edit your REDME file
+
