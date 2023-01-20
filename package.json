@@ -22,7 +22,7 @@
     "dist"
   ],
   "type": "module",
-  "types": "./dist/listShuffle.d.ts",
+  "types": "./dist/ListShuffle.vue.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
