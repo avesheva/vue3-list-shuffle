@@ -1,47 +1,5 @@
-# vue3-ts-lib-starter
+# vue3-list-shuffle
 
-Vue 3 boilerplate for library creation with typescript, vite, tests, linter and husky
+Component for shuffling and change order in lists
 
-## Stack
-* Vue 3.2
-* Typescript 4.6
-* Vite 3.2
-* @vue/test-utils 2.2 with Jest 29.3
-* eslint 8.29
-* Husky 8.0
-
-## Install
-```bash
-# SSH
-git clone git@github.com:avesheva/vue3-ts-lib-starter.git
-```
-```bash
-# HTTPS
-git clone https://github.com/avesheva/vue3-ts-lib-starter.git
-```
-then
-```
-cd vue3-ts-lib-starter
-npm install
-```
-or
-```
-cd vue3-ts-lib-starter
-yarn install
-```
-
-## Run
-```
-npm run dev
-```
-
-## Replace
-
-Replace **"your-lib-name"** in _package.json_, _vite.config.ts_ with your lib actually name. Set your actually values to _package.json_ fields. Rename tests file and lib component file, imports.
-
-Replace git remote url with your repo: `git remote set-url origin <your.repo-url>`
-
-## Edit
-
-Edit your REDME file
-
+[Vue list shuffle.webm](https://user-images.githubusercontent.com/12416010/213774177-c85facc9-6436-4b08-a9d6-1c9ec399dd29.webm)
