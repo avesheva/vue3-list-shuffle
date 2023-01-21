@@ -14,8 +14,8 @@ const props = withDefaults(defineProps<IProps>(), {
   id: 'listWrapper',
   duration: 1,
   shuffleOnInit: false,
-  shuffle: 'KoypS3Gk0Cw8VS',
-  restoreOrder: 'KoypS3Gk0Cw8VS',
+  shuffle: Date.now(),
+  restoreOrder: Date.now(),
 })
 
 const initialOrder: ListItemDataType[] = []
@@ -66,6 +66,10 @@ onMounted(() => {
 
       initialOrder.push({ index: i, top: element.getBoundingClientRect().top })
     }
+  }
+
+  if (props.shuffleOnInit) {
+    shuffleList()
   }
 })
 </script>
