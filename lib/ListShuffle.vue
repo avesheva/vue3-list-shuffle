@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch, ref } from 'vue'
+import { onMounted, onUnmounted, watch, ref } from 'vue'
 
 export interface IProps {
   id?: string,
@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const initialOrder = ref<ListItemDataType[]>([])
+let mutationObserver: MutationObserver
 let newOrder: ListItemDataType[] = []
 let listWrapper: HTMLDivElement | null = null
 
@@ -108,7 +109,7 @@ onMounted(() => {
 
   initialComputing()
 
-  const mutationObserver = new MutationObserver((mutationsList: MutationRecord[]) => {
+  mutationObserver = new MutationObserver((mutationsList: MutationRecord[]) => {
     mutationsList.forEach((mutation: MutationRecord) => {
       if (mutation.addedNodes.length > 0) {
         initialComputing()
@@ -143,6 +144,10 @@ onMounted(() => {
   if (props.shuffleOnInit) {
     shuffleList()
   }
+})
+
+onUnmounted(() => {
+  mutationObserver?.disconnect()
 })
 </script>
 
