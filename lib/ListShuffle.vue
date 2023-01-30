@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 
 export interface IProps {
   id?: string,
@@ -18,7 +18,8 @@ const props = withDefaults(defineProps<IProps>(), {
   restoreOrder: Date.now(),
 })
 
-const initialOrder: ListItemDataType[] = []
+const initialOrder = ref<ListItemDataType[]>([])
+let newOrder: ListItemDataType[] = []
 let listWrapper: HTMLDivElement | null = null
 
 const shuffleArray = (array: ListItemDataType[]) => {
@@ -32,17 +33,14 @@ const shuffleArray = (array: ListItemDataType[]) => {
   return arrClone
 }
 
-const shuffleList = (toInitOrder = false) => {
-  if (!listWrapper) return
-
-  const newOrder = toInitOrder ? [ ...initialOrder ] : shuffleArray(initialOrder)
+const positionCalculate = (list: ListItemDataType[]): ListItemDataType[] => {
   const updatedCoordinates: ListItemDataType[] = []
 
-  for (let i = 0; i < newOrder.length; i++) {
-    updatedCoordinates[i] = { ...newOrder[i] }
+  for (let i = 0; i < list.length; i++) {
+    updatedCoordinates[i] = { ...list[i] }
 
     if (i === 0) {
-      updatedCoordinates[i].top = initialOrder[i].top
+      updatedCoordinates[i].top = initialOrder.value[i].top
       updatedCoordinates[i].bottom = updatedCoordinates[i].top + updatedCoordinates[i].height
       continue
     }
@@ -51,13 +49,50 @@ const shuffleList = (toInitOrder = false) => {
     updatedCoordinates[i].bottom = updatedCoordinates[i].top + updatedCoordinates[i].height
   }
 
+  return updatedCoordinates
+}
+const moveItems = (list: ListItemDataType[], wrapper: HTMLElement) => {
+  const updatedCoordinates = positionCalculate(list)
+
   for (let i = 0; i < updatedCoordinates.length; i++) {
     const item = updatedCoordinates[i]
-    const currentElement = listWrapper.children[item.index] as HTMLElement
-    const top = item.top - initialOrder[item.index].top
+    const currentElement = wrapper.children[item.index] as HTMLElement
 
-    currentElement.style.transform = `translate(0, ${ top }px)`
+    if (initialOrder.value[item.index]) {
+      const top = item.top - initialOrder.value[item.index].top
+      currentElement.style.transform = `translate(0, ${ top }px)`
+    }
   }
+}
+
+const initialComputing = () => {
+  if (!listWrapper) return
+
+  initialOrder.value = []
+
+  for (let i = 0; i < listWrapper.children.length; i++) {
+    const element = listWrapper.children[i] as HTMLElement
+
+    element.style.transitionProperty = 'transform'
+    element.style.transitionDuration = `${ props.duration }s`
+    element.setAttribute('index', `${ i }`)
+
+    initialOrder.value.push(
+      {
+        index: i,
+        top: element.offsetTop,
+        bottom: element.offsetTop + element.offsetHeight,
+        height: element.offsetHeight,
+      },
+    )
+  }
+}
+
+const shuffleList = (toInitOrder = false) => {
+  if (!listWrapper) return
+
+  newOrder = toInitOrder ? [ ...initialOrder.value ] : shuffleArray(initialOrder.value)
+  moveItems(newOrder, listWrapper)
 }
 
 watch(() => props.shuffle, () => {
@@ -71,16 +106,38 @@ watch(() => props.restoreOrder, () => {
 onMounted(() => {
   listWrapper = document.getElementById(props.id) as HTMLDivElement
 
+  initialComputing()
+
+  const mutationObserver = new MutationObserver((mutationsList: MutationRecord[]) => {
+    mutationsList.forEach((mutation: MutationRecord) => {
+      if (mutation.addedNodes.length > 0) {
+        initialComputing()
+      }
+
+      mutation.removedNodes.forEach((node: Node) => {
+        const removedItemIndex = (node as HTMLElement).getAttribute('index')
+        let indexInOrder: number | null = null
+
+        if (removedItemIndex !== '') {
+          newOrder = newOrder.map((item, i) => {
+            if (Number(removedItemIndex) === item.index) indexInOrder = i
+            if (Number(removedItemIndex) < item.index) item.index--
+
+            return item
+          })
+          indexInOrder !== null && newOrder.splice(indexInOrder, 1)
+
+          if (listWrapper) {
+            initialComputing()
+            moveItems(newOrder, listWrapper)
+          }
+        }
+      })
+    })
+  })
+
   if (listWrapper) {
-    for (let i = 0; i < listWrapper.children.length; i++) {
-      const element = listWrapper.children[i] as HTMLElement
-      const clientRect = element.getBoundingClientRect()
-
-      element.style.transitionProperty = 'transform'
-      element.style.transitionDuration = `${ props.duration }s`
-
-      initialOrder.push({ index: i, top: clientRect.top, bottom: clientRect.bottom, height: clientRect.height })
-    }
+    mutationObserver.observe(listWrapper, { subtree: false, childList: true })
   }
 
   if (props.shuffleOnInit) {
