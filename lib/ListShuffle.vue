@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<IProps>(), {
   shuffle: Date.now(),
   restoreOrder: Date.now(),
 })
+const emit = defineEmits(['shuffled'])
 
 const initialOrder = ref<ListItemDataType[]>([])
 let mutationObserver: MutationObserver
@@ -30,6 +31,10 @@ const shuffleArray = (array: ListItemDataType[]) => {
     const j = Math.floor(Math.random() * (i + 1))
     const t = arrClone[i]; arrClone[i] = arrClone[j]; arrClone[j] = t
   }
+
+  setTimeout(() => {
+    emit('shuffled', arrClone.map((item) => item.index))
+  }, props.duration * 1000)
 
   return arrClone
 }
