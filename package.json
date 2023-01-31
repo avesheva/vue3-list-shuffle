@@ -1,7 +1,7 @@
 {
   "name": "vue3-list-shuffle",
-  "version": "1.0.0",
-  "description": "Component for shuffling and change order in lists",
+  "version": "1.0.1",
+  "description": "Component for animated shuffling and change order in lists",
   "homepage": "https://github.com/avesheva/vue3-list-shuffle",
   "author": "Andrii Shevchenko <shevchenkoandrii.dev@gmail.com>",
   "license": "MIT",
@@ -9,7 +9,8 @@
     "vue",
     "vue3",
     "javascript",
-    "typescript"
+    "typescript",
+    "list shuffle"
   ],
   "private": false,
   "main": "dist/vue3-list-shuffle.umd.js",
