@@ -29,3 +29,8 @@ import VueListShuffle from 'vue3-list-shuffle';
 | shuffle       | String, Number, Boolean | Date.now() | Change this prop for calling shuffling |
 | shuffleOnInit | Boolean | false                | If true, shuffles list on first init|
 | restoreOrder  | String, Number, Boolean | Date.now() | Change this prop for restoring initial list order |
+
+## Events
+| NAME     | PARAMS TYPE | DESCRIPTION |
+|----------|-------------|-------------|
+| shuffled | number[]    | Fires after shuffling is finished. Returns array with list items indexes on new positions. |
