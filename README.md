@@ -25,10 +25,20 @@ import VueListShuffle from 'vue3-list-shuffle';
       :restore-order="restoreOrder"
       :duration="3"
     >
-      <div v-for="item in 5" :key="item">
+      <div v-for="item in 5" :key="item" class="list-item">
         ITEM: {{ item }}
       </div>
     </vue-list-shuffle>
+    
+    <style scoped>
+     .list-item {
+        background: #B08620;
+        font-size: 3rem;
+        padding: 1.5rem;
+        border: solid 1px;
+        color: #FEF0CD;
+      }
+    <style>
 ```
 
 ## Props
