@@ -1,6 +1,6 @@
 {
   "name": "vue3-list-shuffle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Component for animated shuffling and change order in lists",
   "homepage": "https://github.com/avesheva/vue3-list-shuffle",
   "author": "Andrii Shevchenko <shevchenkoandrii.dev@gmail.com>",
