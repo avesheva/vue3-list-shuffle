@@ -23,16 +23,19 @@ const initialOrder = ref<ListItemDataType[]>([])
 let mutationObserver: MutationObserver
 let newOrder: ListItemDataType[] = []
 let listWrapper: HTMLDivElement | null = null
+let timerId: ReturnType<typeof setTimeout>
 
 const shuffleArray = (array: ListItemDataType[]) => {
   const arrClone = [...array]
+
+  clearTimeout(timerId)
 
   for (let i = arrClone.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     const t = arrClone[i]; arrClone[i] = arrClone[j]; arrClone[j] = t
   }
 
-  setTimeout(() => {
+  timerId = setTimeout(() => {
     emit('shuffled', arrClone.map((item) => item.index))
   }, props.duration * 1000)
 
