@@ -4,6 +4,8 @@ Lightweight, easy to use component for animated shuffling and change order in li
 
 [Vue list shuffle.webm](https://user-images.githubusercontent.com/12416010/213774177-c85facc9-6436-4b08-a9d6-1c9ec399dd29.webm)
 
+[**Live Demo**](https://avesheva.github.io/vue3-list-shuffle/)
+
 ## Installation
 ```shell
 # with npm
